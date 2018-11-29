@@ -16,6 +16,17 @@ run=true;
 while run
     % Get the next frame.
     videoFrame = snapshot(cam);
+    % get grey scale image of frame
+   videoFrameGray = rgb2gray(videoFrame);
+
+     % Detect bounding boxs for face from grey image.
+     bbox = faceDetector.step(videoFrameGray);
+
+     % if we detect faces, insert a rectange into frame
+     if ~isempty(bbox)
+     % insert bounding box around the detected face.
+            videoFrame = insertShape(videoFrame, 'Rectangle', bbox, 'LineWidth', 3);
+     end
     % Display the annotated video frame using the video player object.
     step(videoPlayer, videoFrame);
 
